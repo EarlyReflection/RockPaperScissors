@@ -19,11 +19,27 @@ struct ContentView: View {
     let items = ["🪨", "📜", "✂️"]
     
     var body: some View {
-        VStack {
-            Text("YOU: \(userScore)")
-            Text("APP: \(appScore)")
-            Text("Round: \(round)")
-            //            Text("You should \(condition)")
+        ZStack {
+            LinearGradient(colors: [.blue, .green], startPoint: .topTrailing, endPoint: .bottomLeading)
+                .ignoresSafeArea()
+            
+            VStack {
+                HStack {
+                    Spacer()
+                Text("YOU: \(userScore)")
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(10)
+                    Spacer()
+                Text("APP: \(appScore)")
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(10)
+                    Spacer()
+            }
+                .foregroundColor(.black)
+                .padding(.top, 10)
+                
             Spacer()
             HStack {
                 Spacer()
@@ -34,14 +50,18 @@ struct ContentView: View {
                     .font(.system(size: 100))
                 Spacer()
             }
+                
             Spacer()
             HStack {
                 ForEach(0..<3){ number in
-                    Spacer()
                     Button(items[number]) {
                         userChoice = items[number]
-                        appChoice = items[Int.random(in: 0..<3)]
-                        checkResult()
+                        let randNumber = Int.random(in: 0..<3)
+                        appChoice = items[randNumber]
+//                        checkResult()
+                        if userChoice != appChoice {
+                            check(number, randNumber)
+                        }
                         round += 1
                         if round == 11 {
                             gameOver = true
@@ -49,15 +69,18 @@ struct ContentView: View {
                     }
                     .font(.system(size: 50))
                     .buttonStyle(.bordered)
-                    Spacer()
+                    .padding(5)
                 }
             }
-            .padding(.bottom)
+            .padding(7)
+            .background(.ultraThinMaterial)
+            .cornerRadius(10)
         }
         .padding()
         .alert("Game Over!", isPresented: $gameOver) {
             Button("New Game") {
-               resetScore()
+                resetScore()
+            }
             }
         }
     }
@@ -69,19 +92,12 @@ struct ContentView: View {
         gameOver = false
     }
     
-    func checkResult() {
-        if userChoice == items[0] && appChoice == items[1] {
-            appScore += 1
-        } else if userChoice == items[0] && appChoice == items[2] {
+    func check(_ number: Int, _ randNumber: Int) {
+        let win = [1, 2, 0]
+        if number == win[randNumber] {
             userScore += 1
-        } else if userChoice == items[1] && appChoice == items[2] {
+        } else {
             appScore += 1
-        } else if userChoice == items[1] && appChoice == items[0] {
-            userScore += 1
-        } else if userChoice == items[2] && appChoice == items[0] {
-            appScore += 1
-        } else if userChoice == items[2] && appChoice == items[1] {
-            userScore += 1
         }
     }
 }
