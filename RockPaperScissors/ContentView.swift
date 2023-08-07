@@ -10,8 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var appChoice = ""
     @State private var userChoice = ""
-    //    @State private var condition = "win"
-    //    @State private var shouldWin = false
+
     @State private var userScore = 0
     @State private var appScore = 0
     @State private var round = 1
@@ -44,10 +43,10 @@ struct ContentView: View {
             HStack {
                 Spacer()
                 Text(userChoice)
-                    .font(.system(size: 100))
+                    .font(.system(size: 150))
                 Spacer()
                 Text(appChoice)
-                    .font(.system(size: 100))
+                    .font(.system(size: 150))
                 Spacer()
             }
                 
@@ -58,7 +57,7 @@ struct ContentView: View {
                         userChoice = items[number]
                         let randNumber = Int.random(in: 0..<3)
                         appChoice = items[randNumber]
-//                        checkResult()
+                        
                         if userChoice != appChoice {
                             check(number, randNumber)
                         }
